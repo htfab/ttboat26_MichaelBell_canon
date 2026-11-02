@@ -6,29 +6,36 @@
 */
 module tb ();
 
-  // Dump the signals to a FST file. You can view it with gtkwave or surfer.
-  initial begin
-    $dumpfile("tb.fst");
-    $dumpvars(0, tb);
-    #1;
-  end
-
   // Wire up the inputs and outputs:
   reg clk;
   reg rst_n;
   reg ena;
+  wire pwm;
+
+  wire hsync;
+  wire vsync;
+  wire [5:0] rgb;
+  wire [1:0] red;
+  wire [1:0] green;
+  wire [1:0] blue;
+
   reg [7:0] ui_in;
   reg [7:0] uio_in;
   wire [7:0] uo_out;
   wire [7:0] uio_out;
   wire [7:0] uio_oe;
+
+  reg [9:0] last_sample;
+
+  initial last_sample <= 0;
+
 `ifdef GL_TEST
   wire VPWR = 1'b1;
   wire VGND = 1'b0;
 `endif
 
   // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_MichaelBell_canon user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -45,5 +52,14 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+
+  assign pwm = uio_out[7];
+
+  assign hsync = uo_out[7];
+  assign vsync = uo_out[3];
+  assign rgb = {uo_out[0], uo_out[4], uo_out[1], uo_out[5], uo_out[2], uo_out[6]};
+  assign red = rgb[5:4];
+  assign green = rgb[3:2];
+  assign blue = rgb[1:0];
 
 endmodule

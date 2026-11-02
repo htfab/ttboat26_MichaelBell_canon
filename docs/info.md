@@ -9,12 +9,13 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+The project plays Pachelbel’s Canon along with some fun visuals.
 
 ## How to test
 
-Explain how to use your project
+Set the inputs to 0, clock at 36MHz.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Tiny Tapeout [Audio Pmod](https://github.com/MichaelBell/tt-audio-pmod) in the bidir
+[Tiny VGA Pmod](https://github.com/mole99/tiny-vga) in the output
